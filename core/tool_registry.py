@@ -91,9 +91,10 @@ class ToolRegistry:
         return self._tools[tool_name]
 
     # -----------------------------------------------------
-    
+
     def mcp_name(self, tool_name: str) -> str:
-       return self.get(tool_name).mcp_name
+
+        return self.get(tool_name).mcp_name
 
     # ------------------------------------------------------
 
@@ -107,12 +108,6 @@ class ToolRegistry:
                 raise ValueError(
                     f"Tool '{tool_name}' requires argument '{required}'."
                 )
-
-    # ------------------------------------------------------
-
-    def mcp_name(self, tool_name: str) -> str:
-
-        return self.get(tool_name).mcp_name
 
     # ------------------------------------------------------
 
@@ -164,7 +159,6 @@ registry.register(
     )
 )
 
-
 registry.register(
     ToolDefinition(
         name="project_index",
@@ -197,8 +191,6 @@ registry.register(
     )
 )
 
-
-
 registry.register(
     ToolDefinition(
         name="audit_platform_capabilities",
@@ -219,7 +211,6 @@ registry.register(
     )
 )
 
-
 registry.register(
     ToolDefinition(
         name="write_file",
@@ -230,6 +221,34 @@ registry.register(
             "content",
         ],
         permissions=["filesystem.write"],
+    )
+)
+
+# ==========================================================
+# GOVERNED STRAIN RESEARCH
+# ==========================================================
+
+registry.register(
+    ToolDefinition(
+        name="research_strain",
+        mcp_name="research_strain",
+        description=(
+            "Collect source-attributed breeder, lineage, and uninfused flower "
+            "chemistry evidence for one exact strain candidate. This tool never "
+            "promotes, ranks, or recommends the candidate."
+        ),
+        required_args=["candidate_name"],
+        optional_args=[
+            "normalized_name",
+            "review_id",
+            "marketplace_mentions",
+            "research_queries",
+            "requested_by",
+            "scope",
+        ],
+        permissions=["research.read"],
+        timeout=120.0,
+        retries=1,
     )
 )
 
