@@ -1,0 +1,20 @@
+{
+  "key": "patient_knowledge",
+  "name": "Patient Knowledge",
+  "version": "1.0",
+  "purpose": "Provide the canonical permission-aware representation of a patient and the patient's care journey.",
+  "aliases": ["patient", "patient_profile", "wellness", "checkin", "check_in", "medical_history"],
+  "audiences": ["patient", "authorized clinician", "authorized caregiver", "atlas"],
+  "sources": ["patient-entered records", "wellness check-ins", "product usage check-ins", "authorized clinical records", "Kushwell intelligence"],
+  "permissions": ["authentication", "authorization", "patient consent", "least necessary access", "data governance"],
+  "capabilities": ["patient_profile", "patient_checkin", "longitudinal_patient_intelligence", "evidence_provenance"],
+  "contract_document": "docs/architecture/PATIENT_KNOWLEDGE_CONTRACT.md",
+  "canonical_owner": {
+    "project": "kushwell",
+    "service": "app.services.patient_knowledge.PatientKnowledgeService",
+    "method": "get",
+    "interface": "python",
+    "status": "planned"
+  },
+  "notes": "No consumer may bypass patient permissions simply because source records exist."
+}

@@ -1,0 +1,69 @@
+{
+  "key": "patient_profile",
+  "name": "Patient Knowledge and Profile",
+  "purpose": "Maintain the authoritative, permission-governed picture of the patient and the context required by every patient-facing capability.",
+  "launch_critical": true,
+  "priority": 96,
+  "audience": [
+    "patient",
+    "provider"
+  ],
+  "outcomes": [
+    "authoritative patient context",
+    "current products",
+    "conditions and constraints",
+    "consent-controlled access"
+  ],
+  "dependencies": [
+    "governance"
+  ],
+  "requirements": [
+    {
+      "kind": "model",
+      "name": "Patient identity and profile",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "model",
+      "name": "Medical history and indications",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "model",
+      "name": "Current products",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "service",
+      "name": "Profile access service",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "governance",
+      "name": "Ownership and consent enforcement",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    }
+  ],
+  "status": "unknown",
+  "notes": ""
+}

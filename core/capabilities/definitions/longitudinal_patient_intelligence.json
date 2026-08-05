@@ -1,0 +1,75 @@
+{
+  "key": "longitudinal_patient_intelligence",
+  "name": "Longitudinal Patient Intelligence",
+  "purpose": "Unify timestamped observations, products, interventions, journal entries, contextual events, and outcomes into a queryable patient timeline.",
+  "launch_critical": true,
+  "priority": 98,
+  "audience": [
+    "patient",
+    "provider"
+  ],
+  "outcomes": [
+    "before-and-after comparison",
+    "trend analysis",
+    "product attribution",
+    "retrospective explanation"
+  ],
+  "dependencies": [
+    "patient_profile",
+    "product_outcomes",
+    "journal",
+    "governance"
+  ],
+  "requirements": [
+    {
+      "kind": "model",
+      "name": "Timestamped event sources",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "service",
+      "name": "Timeline normalization adapter",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "service",
+      "name": "Date-range and before/after queries",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "template",
+      "name": "Patient timeline experience",
+      "description": "",
+      "required": true,
+      "launch_blocking": false,
+      "patterns": [
+        "templates/patient/*longitudinal*",
+        "templates/patient/*timeline*"
+      ],
+      "notes": ""
+    },
+    {
+      "kind": "governance",
+      "name": "Patient ownership and consent",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    }
+  ],
+  "status": "unknown",
+  "notes": ""
+}

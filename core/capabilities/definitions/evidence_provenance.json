@@ -1,0 +1,67 @@
+{
+  "key": "evidence_provenance",
+  "name": "Evidence and Provenance Layer",
+  "purpose": "Make every important conclusion traceable to source, timestamp, confidence, inference status, and producing service.",
+  "launch_critical": true,
+  "priority": 89,
+  "audience": [
+    "all"
+  ],
+  "outcomes": [
+    "auditable conclusions",
+    "measured-versus-inferred transparency",
+    "conflict visibility"
+  ],
+  "dependencies": [
+    "governance"
+  ],
+  "requirements": [
+    {
+      "kind": "data",
+      "name": "Source type and identifier",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "data",
+      "name": "Timestamp",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "data",
+      "name": "Confidence and inference status",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "service",
+      "name": "Conflict resolution rules",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "output",
+      "name": "Disclosure text",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    }
+  ],
+  "status": "unknown",
+  "notes": ""
+}

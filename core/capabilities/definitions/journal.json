@@ -1,0 +1,80 @@
+{
+  "key": "journal",
+  "name": "Patient Journal",
+  "purpose": "Capture patient context that structured access points cannot and connect it to the longitudinal timeline.",
+  "launch_critical": true,
+  "priority": 82,
+  "audience": [
+    "patient"
+  ],
+  "outcomes": [
+    "timestamped narrative context",
+    "timeline enrichment",
+    "patient-owned record"
+  ],
+  "dependencies": [
+    "patient_profile",
+    "longitudinal_patient_intelligence",
+    "governance"
+  ],
+  "requirements": [
+    {
+      "kind": "template",
+      "name": "Journal home",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [
+        "templates/patient/*journal*"
+      ],
+      "notes": ""
+    },
+    {
+      "kind": "template",
+      "name": "New journal entry",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "route",
+      "name": "Journal routes",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "model",
+      "name": "Timestamped journal entry",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "governance",
+      "name": "Ownership and privacy",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "integration",
+      "name": "Timeline connection",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    }
+  ],
+  "status": "unknown",
+  "notes": ""
+}

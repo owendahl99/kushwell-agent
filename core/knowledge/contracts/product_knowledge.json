@@ -1,0 +1,53 @@
+{
+  "key": "product_knowledge",
+  "name": "Product Knowledge",
+  "version": "1.0",
+  "purpose": "Provide the single canonical representation of a Kushwell product to Atlas, APIs, interfaces, comparisons, and reports.",
+  "aliases": [
+    "product",
+    "products",
+    "product_card",
+    "product_profile",
+    "chemistry",
+    "potency"
+  ],
+  "audiences": [
+    "patient",
+    "clinician",
+    "dispensary",
+    "manufacturer",
+    "researcher",
+    "atlas"
+  ],
+  "sources": [
+    "product records",
+    "chemistry resolution",
+    "safety intelligence",
+    "product outcomes",
+    "patient experience tags",
+    "manufacturer-attributed metadata",
+    "inventory"
+  ],
+  "permissions": [
+    "public product facts",
+    "audience presentation policy",
+    "source attribution",
+    "data governance"
+  ],
+  "capabilities": [
+    "product_knowledge",
+    "chemical_knowledge",
+    "safety_intelligence",
+    "product_outcomes",
+    "evidence_provenance"
+  ],
+  "contract_document": "docs/architecture/PRODUCT_KNOWLEDGE_CONTRACT.md",
+  "canonical_owner": {
+    "project": "kushwell",
+    "service": "app.services.product_knowledge.ProductKnowledgeService",
+    "method": "get",
+    "interface": "python",
+    "status": "implemented_smoke_tested"
+  },
+  "notes": "ProductKnowledgeService is the canonical doorway. The current serializer remains an internal adapter until the Product Knowledge payload is fully separated from presentation concerns."
+}

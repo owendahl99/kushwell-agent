@@ -1,0 +1,62 @@
+{
+  "key": "commercial_intelligence",
+  "name": "Manufacturer and Dispensary Intelligence",
+  "purpose": "Provide role-specific product, inventory, evidence, and aggregate outcome intelligence without compromising patient privacy or ranking integrity.",
+  "launch_critical": false,
+  "priority": 40,
+  "audience": [
+    "manufacturer",
+    "dispensary"
+  ],
+  "outcomes": [
+    "product management",
+    "inventory intelligence",
+    "approved aggregate insights"
+  ],
+  "dependencies": [
+    "product_knowledge",
+    "chemical_knowledge",
+    "recommendation_engine",
+    "governance"
+  ],
+  "requirements": [
+    {
+      "kind": "service",
+      "name": "Inventory integration",
+      "description": "",
+      "required": true,
+      "launch_blocking": false,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "governance",
+      "name": "Commercial role boundaries",
+      "description": "",
+      "required": true,
+      "launch_blocking": false,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "service",
+      "name": "Manufacturer product submission",
+      "description": "",
+      "required": true,
+      "launch_blocking": false,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "experience",
+      "name": "Commercial workspace",
+      "description": "",
+      "required": true,
+      "launch_blocking": false,
+      "patterns": [],
+      "notes": ""
+    }
+  ],
+  "status": "unknown",
+  "notes": ""
+}

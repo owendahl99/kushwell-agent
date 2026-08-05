@@ -1,0 +1,75 @@
+{
+  "key": "governance",
+  "name": "Governance, Roles, and Entitlements",
+  "purpose": "Enforce one Brain with rules-based and role-based visibility, sources, tools, actions, ownership, and premium entitlements.",
+  "launch_critical": true,
+  "priority": 99,
+  "audience": [
+    "all"
+  ],
+  "outcomes": [
+    "role-appropriate access",
+    "patient privacy",
+    "premium capability enforcement",
+    "auditable actions"
+  ],
+  "dependencies": [],
+  "requirements": [
+    {
+      "kind": "model",
+      "name": "Identity and roles",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "service",
+      "name": "Permission policy",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "service",
+      "name": "Ownership and consent",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "service",
+      "name": "Entitlements and subscriptions",
+      "description": "",
+      "required": true,
+      "launch_blocking": false,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "service",
+      "name": "Response filtering",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "audit",
+      "name": "Action audit trail",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    }
+  ],
+  "status": "unknown",
+  "notes": ""
+}

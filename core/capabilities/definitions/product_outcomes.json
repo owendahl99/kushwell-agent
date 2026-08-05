@@ -1,0 +1,70 @@
+{
+  "key": "product_outcomes",
+  "name": "Product Outcome and Attribution Intelligence",
+  "purpose": "Determine which products appear to help, harm, or have no effect on specific patient axes over time without collapsing experience into one score.",
+  "launch_critical": true,
+  "priority": 91,
+  "audience": [
+    "patient",
+    "provider",
+    "researcher"
+  ],
+  "outcomes": [
+    "axis-specific product associations",
+    "confidence-aware attribution",
+    "positive and negative outcome summaries"
+  ],
+  "dependencies": [
+    "longitudinal_patient_intelligence",
+    "evidence_provenance"
+  ],
+  "requirements": [
+    {
+      "kind": "model",
+      "name": "Product usage events",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "model",
+      "name": "Dose and administration method",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "service",
+      "name": "Outcome-window analysis",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "service",
+      "name": "Confounder-aware attribution",
+      "description": "",
+      "required": true,
+      "launch_blocking": false,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "output",
+      "name": "Product outcome summary",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    }
+  ],
+  "status": "unknown",
+  "notes": ""
+}

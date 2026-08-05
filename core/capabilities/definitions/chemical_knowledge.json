@@ -1,0 +1,79 @@
+{
+  "key": "chemical_knowledge",
+  "name": "Chemical Knowledge Base",
+  "purpose": "Resolve measured and inferred cannabinoids, terpenes, chemotypes, strain signatures, provenance, and confidence for products.",
+  "launch_critical": true,
+  "priority": 94,
+  "audience": [
+    "patient",
+    "researcher",
+    "provider",
+    "manufacturer"
+  ],
+  "outcomes": [
+    "normalized chemistry",
+    "measured versus inferred distinction",
+    "chemistry available to recommendations"
+  ],
+  "dependencies": [
+    "evidence_provenance"
+  ],
+  "requirements": [
+    {
+      "kind": "model",
+      "name": "Product chemistry profile",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "service",
+      "name": "Chemistry resolution service",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "service",
+      "name": "Strain inference fallback",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "pipeline",
+      "name": "Chemistry ingestion and normalization",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "data",
+      "name": "Confidence and provenance",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "experience",
+      "name": "Chemical glossary",
+      "description": "",
+      "required": true,
+      "launch_blocking": false,
+      "patterns": [],
+      "notes": ""
+    }
+  ],
+  "status": "unknown",
+  "notes": ""
+}

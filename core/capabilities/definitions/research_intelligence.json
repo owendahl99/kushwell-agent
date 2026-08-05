@@ -1,0 +1,60 @@
+{
+  "key": "research_intelligence",
+  "name": "Research Intelligence",
+  "purpose": "Enable governed analysis of anonymized chemistry, product, patient, and outcome patterns without exposing identity.",
+  "launch_critical": false,
+  "priority": 45,
+  "audience": [
+    "researcher"
+  ],
+  "outcomes": [
+    "de-identified cohorts",
+    "reproducible research queries",
+    "provenance-aware exports"
+  ],
+  "dependencies": [
+    "evidence_provenance",
+    "governance",
+    "product_outcomes"
+  ],
+  "requirements": [
+    {
+      "kind": "service",
+      "name": "De-identification",
+      "description": "",
+      "required": true,
+      "launch_blocking": false,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "service",
+      "name": "Cohort builder",
+      "description": "",
+      "required": true,
+      "launch_blocking": false,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "governance",
+      "name": "Aggregation thresholds",
+      "description": "",
+      "required": true,
+      "launch_blocking": false,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "audit",
+      "name": "Research audit trail",
+      "description": "",
+      "required": true,
+      "launch_blocking": false,
+      "patterns": [],
+      "notes": ""
+    }
+  ],
+  "status": "unknown",
+  "notes": ""
+}

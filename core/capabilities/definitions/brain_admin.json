@@ -1,0 +1,78 @@
+{
+  "key": "brain_admin",
+  "name": "Brain Developer and Admin Console",
+  "purpose": "Serve as the central operating interface for architecture search, health checks, governed tools, and platform administration.",
+  "launch_critical": true,
+  "priority": 88,
+  "audience": [
+    "admin",
+    "developer"
+  ],
+  "outcomes": [
+    "project knowledge search",
+    "capability health reports",
+    "controlled operational actions"
+  ],
+  "dependencies": [
+    "governance",
+    "evidence_provenance"
+  ],
+  "requirements": [
+    {
+      "kind": "tool",
+      "name": "Recursive project index",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "tool",
+      "name": "Project search and relationships",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "tool",
+      "name": "Platform capability registry",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "tool",
+      "name": "Capability auditor",
+      "description": "",
+      "required": true,
+      "launch_blocking": false,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "tool",
+      "name": "Missing path and dependency report",
+      "description": "",
+      "required": true,
+      "launch_blocking": false,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "governance",
+      "name": "Tool permission enforcement",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    }
+  ],
+  "status": "unknown",
+  "notes": ""
+}

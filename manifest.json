@@ -1,0 +1,22 @@
+{
+  "name": "Step Five Atlas KAP Integration",
+  "version": "5.0",
+  "files": [
+    "README_STEP_FIVE_ATLAS_KAP.md",
+    "agent.py",
+    "core/dag_executor.py",
+    "core/kushwell_acquisition.py",
+    "core/semantic_parser.py",
+    "core/semantic_planner.py",
+    "core/tool_registry.py",
+    "tests/test_atlas_kap_integration.py"
+  ],
+  "safety": {
+    "natural_language_run_default": "dry_run",
+    "direct_scraper_access": false,
+    "live_requirements": [
+      "dry_run=False",
+      "confirm_live=True"
+    ]
+  }
+}

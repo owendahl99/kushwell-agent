@@ -1,0 +1,84 @@
+{
+  "key": "product_knowledge",
+  "name": "Product Knowledge Base",
+  "purpose": "Provide one authoritative product representation for pages, cards, comparisons, APIs, reports, and Brain responses.",
+  "launch_critical": true,
+  "priority": 95,
+  "audience": [
+    "patient",
+    "dispensary",
+    "manufacturer",
+    "provider"
+  ],
+  "outcomes": [
+    "canonical product payload",
+    "consistent product presentation",
+    "evidence-aware product facts"
+  ],
+  "dependencies": [
+    "chemical_knowledge",
+    "safety_intelligence",
+    "product_outcomes",
+    "evidence_provenance"
+  ],
+  "requirements": [
+    {
+      "kind": "model",
+      "name": "Canonical product identity",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "service",
+      "name": "Canonical product payload builder",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "template",
+      "name": "Product Hero Card",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [
+        "templates/components/product_hero_card*.html"
+      ],
+      "notes": ""
+    },
+    {
+      "kind": "route",
+      "name": "Product detail route",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "service",
+      "name": "Product image resolution",
+      "description": "",
+      "required": true,
+      "launch_blocking": false,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "pipeline",
+      "name": "Product scraping and ingestion",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    }
+  ],
+  "status": "unknown",
+  "notes": ""
+}

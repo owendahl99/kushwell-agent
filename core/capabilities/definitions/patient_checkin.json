@@ -1,0 +1,124 @@
+{
+  "key": "patient_checkin",
+  "name": "Patient Check-In and Access Portal",
+  "purpose": "Collect clinically meaningful, timestamped patient data through a clear, interactive mobile-first experience and connect every response to the active patient models.",
+  "launch_critical": true,
+  "priority": 100,
+  "audience": [
+    "patient"
+  ],
+  "outcomes": [
+    "baseline established",
+    "axis observations recorded",
+    "patient receives immediate value",
+    "future access points informed by volatility"
+  ],
+  "dependencies": [
+    "patient_profile",
+    "longitudinal_patient_intelligence",
+    "governance"
+  ],
+  "requirements": [
+    {
+      "kind": "template",
+      "name": "Baseline check-in",
+      "description": "Canonical baseline collection experience.",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [
+        "templates/patient/*baseline*checkin*.html"
+      ],
+      "notes": ""
+    },
+    {
+      "kind": "template",
+      "name": "Check-in walkthrough",
+      "description": "Patient-facing walkthrough and recurring check-in experience.",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [
+        "templates/patient/checkin_walkthrough.html"
+      ],
+      "notes": ""
+    },
+    {
+      "kind": "frontend",
+      "name": "Check-in JavaScript",
+      "description": "Interactive form behavior and API submission.",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [
+        "static/js/*checkin*.js"
+      ],
+      "notes": ""
+    },
+    {
+      "kind": "frontend",
+      "name": "Check-in CSS",
+      "description": "Mobile-first presentation.",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [
+        "static/css/*checkin*.css"
+      ],
+      "notes": ""
+    },
+    {
+      "kind": "route",
+      "name": "Check-in routes",
+      "description": "GET/POST endpoints for baseline and recurring access.",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [
+        "routes/patient.py"
+      ],
+      "notes": ""
+    },
+    {
+      "kind": "service",
+      "name": "Axis event recording",
+      "description": "Persist each observation independently with timestamps.",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [
+        "*axis*event*",
+        "*checkin*"
+      ],
+      "notes": ""
+    },
+    {
+      "kind": "service",
+      "name": "Axis state update",
+      "description": "Update per-axis state without aggregate QoL scoring.",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [
+        "*axis*state*"
+      ],
+      "notes": ""
+    },
+    {
+      "kind": "service",
+      "name": "Volatility and access scheduling",
+      "description": "Determine when another access point is appropriate.",
+      "required": true,
+      "launch_blocking": false,
+      "patterns": [
+        "*volatility*",
+        "*access*"
+      ],
+      "notes": ""
+    },
+    {
+      "kind": "experience",
+      "name": "Patient feedback",
+      "description": "Return an understandable result or next step after submission.",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    }
+  ],
+  "status": "unknown",
+  "notes": ""
+}

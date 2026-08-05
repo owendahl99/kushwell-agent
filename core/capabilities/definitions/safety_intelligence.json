@@ -1,0 +1,72 @@
+{
+  "key": "safety_intelligence",
+  "name": "Safety Intelligence",
+  "purpose": "Identify product-specific and patient-specific risks while clearly communicating uncertainty and avoiding unsupported medical claims.",
+  "launch_critical": true,
+  "priority": 90,
+  "audience": [
+    "patient",
+    "provider",
+    "dispensary"
+  ],
+  "outcomes": [
+    "contraindication screening",
+    "risk disclosures",
+    "patient-specific safety context"
+  ],
+  "dependencies": [
+    "patient_profile",
+    "product_knowledge",
+    "chemical_knowledge",
+    "evidence_provenance"
+  ],
+  "requirements": [
+    {
+      "kind": "service",
+      "name": "Safety evaluation service",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "data",
+      "name": "Contraindications and interactions",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "service",
+      "name": "Patient-specific inputs",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "output",
+      "name": "Safety card or badges",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "output",
+      "name": "Escalation and uncertainty guidance",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    }
+  ],
+  "status": "unknown",
+  "notes": ""
+}

@@ -1,0 +1,61 @@
+{
+  "key": "provider_intelligence",
+  "name": "Clinical and Provider Intelligence",
+  "purpose": "Turn consenting patient history into clinically useful longitudinal summaries and reports.",
+  "launch_critical": false,
+  "priority": 55,
+  "audience": [
+    "provider"
+  ],
+  "outcomes": [
+    "clinical summaries",
+    "axis trends",
+    "product-use and outcome reports"
+  ],
+  "dependencies": [
+    "patient_profile",
+    "longitudinal_patient_intelligence",
+    "product_outcomes",
+    "governance"
+  ],
+  "requirements": [
+    {
+      "kind": "governance",
+      "name": "Patient consent",
+      "description": "",
+      "required": true,
+      "launch_blocking": false,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "service",
+      "name": "Clinical summary builder",
+      "description": "",
+      "required": true,
+      "launch_blocking": false,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "experience",
+      "name": "Provider workspace",
+      "description": "",
+      "required": true,
+      "launch_blocking": false,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "output",
+      "name": "Exportable report",
+      "description": "",
+      "required": true,
+      "launch_blocking": false,
+      "patterns": [],
+      "notes": ""
+    }
+  ],
+  "status": "unknown",
+  "notes": ""
+}

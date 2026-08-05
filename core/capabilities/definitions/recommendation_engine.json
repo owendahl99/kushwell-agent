@@ -1,0 +1,83 @@
+{
+  "key": "recommendation_engine",
+  "name": "Recommendation Engine",
+  "purpose": "Match patient needs and current axis state with products using chemistry, evidence, outcomes, preferences, and safety constraints.",
+  "launch_critical": true,
+  "priority": 93,
+  "audience": [
+    "patient",
+    "provider",
+    "dispensary"
+  ],
+  "outcomes": [
+    "ranked relevant products",
+    "hard-filter enforcement",
+    "explainable recommendation payload"
+  ],
+  "dependencies": [
+    "patient_profile",
+    "product_knowledge",
+    "chemical_knowledge",
+    "safety_intelligence",
+    "product_outcomes",
+    "evidence_provenance"
+  ],
+  "requirements": [
+    {
+      "kind": "service",
+      "name": "Canonical recommendation engine",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "service",
+      "name": "Hard filters",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "service",
+      "name": "Patient-state matching",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "service",
+      "name": "Chemistry integration",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "output",
+      "name": "Explanation and disclosure payload",
+      "description": "",
+      "required": true,
+      "launch_blocking": true,
+      "patterns": [],
+      "notes": ""
+    },
+    {
+      "kind": "feedback",
+      "name": "Outcome feedback loop",
+      "description": "",
+      "required": true,
+      "launch_blocking": false,
+      "patterns": [],
+      "notes": ""
+    }
+  ],
+  "status": "unknown",
+  "notes": ""
+}

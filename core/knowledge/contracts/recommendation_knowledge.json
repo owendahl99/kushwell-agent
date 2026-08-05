@@ -1,0 +1,20 @@
+{
+  "key": "recommendation_knowledge",
+  "name": "Recommendation Knowledge",
+  "version": "1.0",
+  "purpose": "Provide versioned, explainable recommendation intelligence assembled from governed patient, product, evidence, and research knowledge.",
+  "aliases": ["recommendation", "recommendations", "ranking", "matching"],
+  "audiences": ["patient", "clinician", "atlas"],
+  "sources": ["patient knowledge", "product knowledge", "governed research knowledge", "safety intelligence", "evidence provenance"],
+  "permissions": ["patient consent", "authorization", "data governance", "explainability"],
+  "capabilities": ["recommendation_engine", "safety_intelligence", "evidence_provenance"],
+  "contract_document": "docs/architecture/DATA_GOVERNANCE_CONTRACT.md",
+  "canonical_owner": {
+    "project": "kushwell-agent",
+    "service": "core.kushwell_recommendations",
+    "method": "query_recommendations",
+    "interface": "atlas_tool",
+    "status": "existing_transitional"
+  },
+  "notes": "Transitional owner. Before launch, recommendation intelligence should consume governed research knowledge rather than raw live patient records."
+}
