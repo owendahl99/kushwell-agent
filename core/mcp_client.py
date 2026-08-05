@@ -64,7 +64,8 @@ class MCPFilesystemClient:
         try:
             args = dict(args or {})
 
-            # Local custom tool. Do NOT send this to the external MCP server.
+            # Local custom tools. Do NOT send these to the external filesystem
+            # MCP server.
             if tool_name == "search_files":
                 return self._search_files(args)
 
@@ -82,6 +83,14 @@ class MCPFilesystemClient:
 
             if tool_name == "get_atlas_dashboard":
                 return self._get_atlas_dashboard(args)
+
+            if tool_name == "research_strain":
+                from core.strain_research import research_strain
+
+                return await asyncio.to_thread(
+                    research_strain,
+                    args,
+                )
 
             args = validator.validate(tool_name, args)
             permissions.check(tool_name, args)
