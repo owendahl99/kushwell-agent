@@ -85,6 +85,12 @@ class MCPFilesystemClient:
                 return self._get_atlas_dashboard(args)
 
             if tool_name == "research_strain":
+                # Unlike the older local helper tools, the first-class strain
+                # capability passes through the central registry validator and
+                # permission engine before external discovery begins.
+                args = validator.validate(tool_name, args)
+                permissions.check(tool_name, args)
+
                 from core.strain_research import research_strain
 
                 return await asyncio.to_thread(
