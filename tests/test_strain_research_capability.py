@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
+from core.permissions import permissions
 from core.semantic_parser import semantic_parser
 from core.semantic_planner import semantic_planner
 from core.strain_research import (
@@ -9,6 +10,7 @@ from core.strain_research import (
     StrainResearchEngine,
 )
 from core.tool_registry import registry
+from core.validator import validator
 
 
 def test_parser_classifies_strain_research_before_recommendation():
@@ -40,6 +42,16 @@ def test_tool_registry_contains_first_class_strain_research():
 
     assert tool.required_args == ["candidate_name"]
     assert "research.read" in tool.permissions
+
+
+def test_strain_research_is_validated_and_explicitly_authorized():
+    args = validator.validate(
+        "research_strain",
+        {"candidate_name": "Zkittlez"},
+    )
+
+    permissions.check("research_strain", args)
+    assert args == {"candidate_name": "Zkittlez"}
 
 
 class _FakeResponses:
