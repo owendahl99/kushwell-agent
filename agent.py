@@ -2,6 +2,7 @@ import asyncio
 import json
 import time
 from datetime import datetime
+from typing import Any, Mapping
 
 from core.mcp_client import MCPFilesystemClient
 from core.router import GPTRouterV8
@@ -9,6 +10,7 @@ from core.dag_executor import DAGExecutor
 from core.memory import MemoryStore
 from core.semantic_parser import semantic_parser
 from core.semantic_planner import semantic_planner
+from core.semantic_request import SemanticRequest
 from core.knowledge import knowledge_registry
 
 
@@ -21,6 +23,10 @@ class KushwellAgent:
         → GPT Router only as a fallback
         → DAG Executor
         → Clean UI Output
+
+    Typed commands bypass natural-language classification while still using the
+    same deterministic planner, governed tool registry, DAG executor, and output
+    reduction pipeline.
     """
 
     DETERMINISTIC_ACTIONS = {
@@ -29,6 +35,7 @@ class KushwellAgent:
         "acquisition_runs",
         "plan_acquisition",
         "run_acquisition",
+        "research_strain",
         "recommend",
         "analyze_evidence",
         "search",
@@ -40,6 +47,7 @@ class KushwellAgent:
         "write",
         "cleanup",
     }
+
     def __init__(self):
         self.mcp = MCPFilesystemClient()
         self.router = GPTRouterV8()
@@ -86,11 +94,11 @@ class KushwellAgent:
         semantic_request: dict,
     ) -> dict:
         """
-        Use the deterministic semantic planner whenever the parser
-        recognizes the operation.
+        Use the deterministic semantic planner whenever the parser or typed
+        command recognizes the operation.
 
-        This prevents the GPT router from turning a knowledge question
-        into literal text-search nodes.
+        This prevents the GPT router from turning governed strain identity
+        research into a recommendation task.
         """
 
         action = semantic_request.get("action")
@@ -124,32 +132,99 @@ class KushwellAgent:
         return graph
 
     # =========================================================
-    # MAIN EXECUTION PIPELINE
+    # NATURAL-LANGUAGE ENTRY POINT
     # =========================================================
     async def run(self, user_input: str):
-        start_time = time.time()
-
         user_input = str(user_input or "").strip()
 
         if not user_input:
-            return {
-                "answer": "Please enter a request.",
-                "summary": {
-                    "success_count": 0,
-                    "failed_count": 0,
-                    "nodes": [],
-                },
-                "raw": {},
-            }
+            return self._empty_output("Please enter a request.")
 
         await self._trace("USER INPUT", user_input)
         await self.memory.add("user", user_input)
 
-        # -----------------------------------------------------
-        # 1. Parse the request once.
-        # -----------------------------------------------------
         semantic_request = semantic_parser.parse(user_input)
 
+        return await self._execute_semantic_request(
+            semantic_request=semantic_request,
+            user_input=user_input,
+            started_at=time.time(),
+        )
+
+    # =========================================================
+    # TYPED COMMAND ENTRY POINT
+    # =========================================================
+    async def run_command(self, command: Mapping[str, Any]):
+        command = dict(command or {})
+        action = str(command.get("action") or "").strip()
+
+        if action != "research_strain":
+            raise ValueError(
+                f"Unsupported typed Brain command: {action or 'missing action'}."
+            )
+
+        candidate_name = str(command.get("candidate_name") or "").strip()
+        if not candidate_name:
+            raise ValueError("research_strain requires candidate_name.")
+
+        normalized_name = str(
+            command.get("normalized_name") or candidate_name.casefold()
+        ).strip()
+        actor = str(command.get("requested_by") or "system").strip()
+
+        semantic_request = SemanticRequest(
+            action="research_strain",
+            subject="strain_identity",
+            source="governed:strain_research",
+            destination=None,
+            filters=["requires_sources", "uninfused_flower_only"],
+            constraints={
+                "operations": ["research_strain"],
+                "deliverable": "strain_evidence_brief",
+                "candidate_name": candidate_name,
+                "normalized_name": normalized_name,
+                "review_id": command.get("review_id"),
+                "marketplace_mentions": int(
+                    command.get("marketplace_mentions") or 0
+                ),
+                "research_queries": command.get("research_queries") or [],
+                "requested_by": actor,
+                "scope": str(
+                    command.get("scope")
+                    or "identity_lineage_flower_chemistry"
+                ),
+                "auto_promote": False,
+                "overwrite": False,
+                "dry_run": False,
+                "outcomes": [],
+                "search_term": None,
+            },
+            requires_confirmation=False,
+            confidence=100,
+            original_request=(
+                f"Typed research_strain command for {candidate_name}"
+            ),
+        ).to_dict()
+
+        await self._trace("TYPED COMMAND", command)
+        await self.memory.add("command", command)
+
+        return await self._execute_semantic_request(
+            semantic_request=semantic_request,
+            user_input=semantic_request["original_request"],
+            started_at=time.time(),
+        )
+
+    # =========================================================
+    # SHARED EXECUTION PIPELINE
+    # =========================================================
+    async def _execute_semantic_request(
+        self,
+        *,
+        semantic_request: dict,
+        user_input: str,
+        started_at: float,
+    ) -> dict:
         await self._trace(
             "SEMANTIC REQUEST",
             semantic_request,
@@ -163,43 +238,26 @@ class KushwellAgent:
             knowledge_context,
         )
 
-        # -----------------------------------------------------
-        # 2. Build one graph.
-        #
-        # Recognized operations use the deterministic semantic
-        # planner. The GPT router is only a fallback.
-        # -----------------------------------------------------
         graph = await self._build_graph(
             user_input=user_input,
             semantic_request=semantic_request,
         )
 
         if not graph or not graph.get("nodes"):
-            final_output = {
-                "answer": (
-                    "The Brain understood the request but could not build "
-                    "an executable plan."
-                ),
-                "summary": {
-                    "success_count": 0,
-                    "failed_count": 1,
-                    "nodes": [],
-                },
-                "raw": {
+            final_output = self._empty_output(
+                "The Brain understood the request but could not build an "
+                "executable plan.",
+                failed_count=1,
+                raw={
                     "semantic_request": semantic_request,
                     "graph": graph or {},
                 },
-            }
-
-            await self._trace(
-                "FINAL OUTPUT",
-                final_output,
             )
 
+            await self._trace("FINAL OUTPUT", final_output)
             await self.memory.add("final", final_output)
             return final_output
 
-        # Keep the semantic request attached to the graph.
         graph.setdefault("request", semantic_request)
 
         await self._trace(
@@ -207,11 +265,6 @@ class KushwellAgent:
             graph,
         )
 
-        # -----------------------------------------------------
-        # 3. Execute exactly once.
-        #
-        # DAGExecutor performs its own graph-expansion rounds.
-        # -----------------------------------------------------
         execution_result = await self.executor.execute(
             graph,
             request=semantic_request,
@@ -222,25 +275,18 @@ class KushwellAgent:
             execution_result,
         )
 
-        # -----------------------------------------------------
-        # 4. Package the DAG answer for the UI.
-        # -----------------------------------------------------
         final_output = self._reduce_output(execution_result)
+        final_output["duration"] = round(time.time() - started_at, 4)
 
         await self._trace(
             "FINAL OUTPUT",
             final_output,
         )
-
         await self.memory.add("final", final_output)
-
-        duration = round(time.time() - start_time, 4)
-
-        final_output["duration"] = duration
 
         await self._trace(
             "TOTAL EXECUTION TIME",
-            duration,
+            final_output["duration"],
         )
 
         return final_output
@@ -248,17 +294,30 @@ class KushwellAgent:
     # =========================================================
     # OUTPUT REDUCTION LAYER
     # =========================================================
+    @staticmethod
+    def _empty_output(
+        answer: str,
+        *,
+        failed_count: int = 0,
+        raw: Any = None,
+    ) -> dict:
+        return {
+            "answer": answer,
+            "summary": {
+                "success_count": 0,
+                "failed_count": failed_count,
+                "nodes": [],
+            },
+            "raw": raw or {},
+        }
+
     def _reduce_output(self, execution_result: dict):
         if not isinstance(execution_result, dict):
-            return {
-                "answer": "No valid execution result was returned.",
-                "summary": {
-                    "success_count": 0,
-                    "failed_count": 1,
-                    "nodes": [],
-                },
-                "raw": execution_result or {},
-            }
+            return self._empty_output(
+                "No valid execution result was returned.",
+                failed_count=1,
+                raw=execution_result or {},
+            )
 
         execution_answer = str(
             execution_result.get("answer") or ""
@@ -319,6 +378,18 @@ class KushwellAgent:
 
             tool = result.get("tool")
             output = result.get("result")
+
+            # -------------------------------------------------
+            # Governed strain-research brief
+            # -------------------------------------------------
+            if (
+                tool == "research_strain"
+                and isinstance(output, dict)
+            ):
+                answer = str(output.get("answer") or "").strip()
+                if answer:
+                    readable_parts.append(answer)
+                continue
 
             # -------------------------------------------------
             # Final synthesized answer
@@ -439,4 +510,4 @@ async def main():
 
 
 if __name__ == "__main__":
-    asyncio.run(main()) 
+    asyncio.run(main())
