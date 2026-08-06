@@ -22,14 +22,19 @@ class MCPToolError(Exception):
 class MCPFilesystemClient:
     def __init__(
         self,
-        root: str = "C:/Users/Kushwell/app",
-        workspace_root: str = "C:/Users/Kushwell/app",
+        root: str | None = None,
+        workspace_root: str | None = None,
     ):
-        self.root = root
+        project_root = str(
+            os.getenv("KUSHWELL_PROJECT_ROOT")
+            or "C:/Kushwell"
+        ).strip()
+        self.root = str(root or project_root)
+        resolved_workspace_root = str(workspace_root or project_root)
         self.session: ClientSession | None = None
         self._ctx = None
         self._started = False
-        self.workspace = WorkspaceManager(workspace_root)
+        self.workspace = WorkspaceManager(resolved_workspace_root)
         self.project_indexer = ProjectIndexer(self.workspace)
         self.capability_auditor = CapabilityAuditor(self.project_indexer)
         self.atlas = AtlasConsole(self.capability_auditor)
