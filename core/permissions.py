@@ -50,6 +50,9 @@ class PermissionEngine:
         "list_directory",
         "read_file",
         "write_file",
+        # Read-only external discovery. The tool cannot promote, recommend,
+        # or write canonical strain records.
+        "research_strain",
     }
 
     # ------------------------------------------------------
