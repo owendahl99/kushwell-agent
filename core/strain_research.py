@@ -243,6 +243,13 @@ class StrainResearchEngine:
             or os.getenv("OPENAI_STRAIN_RESEARCH_MODEL")
             or "gpt-5-mini"
         ).strip()
+        try:
+            requested_output_tokens = int(
+                os.getenv("OPENAI_STRAIN_RESEARCH_MAX_OUTPUT_TOKENS", "6000")
+            )
+        except (TypeError, ValueError):
+            requested_output_tokens = 6000
+        self.max_output_tokens = max(3000, min(requested_output_tokens, 12000))
         self.client = client
 
     @property
@@ -537,7 +544,7 @@ Search leads:
             include=["web_search_call.action.sources"],
             text={"verbosity": "low"},
             input=self.prompt(candidate_name, queries),
-            max_output_tokens=1800,
+            max_output_tokens=self.max_output_tokens,
             store=False,
         )
 
