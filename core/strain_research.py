@@ -121,8 +121,8 @@ def _extract_breeders(text: str) -> list[str]:
     return _extract_named_entities(
         text,
         (
-            r"\b(?:original\s+)?breeder(?:\s+is|:)?\s+([^.;\n]+)",
-            r"\b(?:bred|created|developed)\s+by\s+([^.;\n]+)",
+            r"\b(?:original[ \t]+)?breeder(?:[ \t]+is|[ \t]*:)[ \t]+([^.;\n]+)",
+            r"\b(?:bred|created|developed)[ \t]+by[ \t]+([^.;\n]+)",
         ),
     )
 
