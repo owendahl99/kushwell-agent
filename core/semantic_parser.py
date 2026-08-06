@@ -6,6 +6,21 @@ from core.semantic_request import SemanticRequest
 
 
 class SemanticParser:
+    STRAIN_RESEARCH_PHRASES = {
+        "research strain",
+        "research this strain",
+        "research the strain",
+        "research everything missing for this strain",
+        "research everything missing for the strain",
+        "research cultivar",
+        "research this cultivar",
+        "strain research",
+        "cultivar research",
+        "investigate strain",
+        "investigate this strain",
+        "investigate cultivar",
+    }
+
     EVIDENCE_ANALYTICS_PHRASES = {
         "how much evidence",
         "how many outcomes",
@@ -147,6 +162,18 @@ class SemanticParser:
         deliverable = self._extract_deliverable(action, normalized)
         constraints = self._extract_constraints(normalized)
         search_term = self._extract_search_term(text)
+        candidate_name = self._extract_candidate_name(text, action)
+        review_id = self._extract_review_id(text)
+
+        if action == "research_strain":
+            constraints.update(
+                {
+                    "candidate_name": candidate_name,
+                    "review_id": review_id,
+                    "scope": "identity_lineage_flower_chemistry",
+                    "auto_promote": False,
+                }
+            )
 
         destructive = action in {
             "move",
@@ -224,6 +251,14 @@ class SemanticParser:
             for phrase in self.ACQUISITION_STATUS_PHRASES
         ):
             return "acquisition_status"
+
+        # Strain research must be classified before broad recommendation
+        # phrases. Cultivar evidence collection is never symptom treatment.
+        if any(
+            phrase in text
+            for phrase in self.STRAIN_RESEARCH_PHRASES
+        ):
+            return "research_strain"
 
         # Literal filesystem text search.
         if any(
@@ -305,6 +340,9 @@ class SemanticParser:
         }:
             return "acquisition_operations"
 
+        if action == "research_strain":
+            return "strain_identity"
+
         if action == "recommend":
             return "symptom_treatment"
 
@@ -363,6 +401,9 @@ class SemanticParser:
                 "run_product_acquisition",
                 "answer_question",
             ],
+            "research_strain": [
+                "research_strain",
+            ],
             "search": [
                 "text_search",
             ],
@@ -395,6 +436,50 @@ class SemanticParser:
             action,
             ["answer_question"],
         )
+
+    # =========================================================
+    # STRAIN-RESEARCH HELPERS
+    # =========================================================
+
+    def _extract_candidate_name(
+        self,
+        text: str,
+        action: str,
+    ) -> str | None:
+        if action != "research_strain":
+            return None
+
+        quoted = re.search(r'"([^"]+)"', text)
+        if quoted:
+            return quoted.group(1).strip()
+
+        quoted = re.search(r"'([^']+)'", text)
+        if quoted:
+            return quoted.group(1).strip()
+
+        patterns = (
+            r"(?:research|investigate)\s+(?:everything\s+missing\s+for\s+)?"
+            r"(?:this\s+|the\s+)?(?:strain|cultivar)"
+            r"(?:\s+(?:named|called))?\s+(.+)$",
+            r"(?:strain|cultivar)\s+research(?:\s+for)?\s+(.+)$",
+        )
+        for pattern in patterns:
+            match = re.search(pattern, text, flags=re.IGNORECASE)
+            if not match:
+                continue
+            value = match.group(1).strip(" .,:;!?\t\r\n")
+            value = re.sub(r"\s+review(?:_id|\s+id)?\s*[:=#]?\s*\d+.*$", "", value, flags=re.I)
+            if value and value.casefold() not in {"this", "the", "it"}:
+                return value
+        return None
+
+    def _extract_review_id(self, text: str) -> int | None:
+        match = re.search(
+            r"\breview(?:_id|\s+id)?\s*[:=#]?\s*(\d+)\b",
+            text,
+            flags=re.IGNORECASE,
+        )
+        return int(match.group(1)) if match else None
 
     # =========================================================
     # FILESYSTEM HELPERS
@@ -518,6 +603,9 @@ class SemanticParser:
         action: str,
         text: str,
     ) -> str:
+        if action == "research_strain":
+            return "strain_evidence_brief"
+
         if action == "recommend":
             return "recommendation"
 
