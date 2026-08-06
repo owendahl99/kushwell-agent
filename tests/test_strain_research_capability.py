@@ -129,6 +129,7 @@ def test_engine_returns_source_attributed_flower_only_finding():
     }
     assert client.responses.kwargs["tool_choice"] == "required"
     assert client.responses.kwargs["store"] is False
+    assert "reasoning" not in client.responses.kwargs
 
 
 def test_engine_rejects_implausible_retail_potency_as_flower_baseline():
