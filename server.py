@@ -1,7 +1,8 @@
 from contextlib import asynccontextmanager
+from typing import Literal
 
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from agent import KushwellAgent
 
@@ -19,6 +20,19 @@ agent: KushwellAgent | None = None
 
 class AgentRequest(BaseModel):
     message: str
+
+
+class StrainResearchRequest(BaseModel):
+    action: Literal["research_strain"] = "research_strain"
+    candidate_name: str = Field(min_length=1, max_length=240)
+    normalized_name: str | None = Field(default=None, max_length=240)
+    review_id: int | None = Field(default=None, ge=1)
+    marketplace_mentions: int = Field(default=0, ge=0)
+    research_queries: list[str] = Field(default_factory=list)
+    requested_by: str = Field(default="system", max_length=240)
+    scope: Literal["identity_lineage_flower_chemistry"] = (
+        "identity_lineage_flower_chemistry"
+    )
 
 
 # ==========================================================
@@ -48,7 +62,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="Kushwell Brain",
-    version="1.0",
+    version="1.1",
     lifespan=lifespan,
 )
 
@@ -83,7 +97,7 @@ async def status():
 
 
 # ==========================================================
-# EXECUTE
+# NATURAL-LANGUAGE EXECUTION
 # ==========================================================
 
 @app.post("/execute")
@@ -93,6 +107,27 @@ async def execute(request: AgentRequest):
         raise HTTPException(503, "Brain unavailable")
 
     result = await agent.run(request.message)
+
+    return result
+
+
+# ==========================================================
+# TYPED GOVERNED STRAIN RESEARCH
+# ==========================================================
+
+@app.post("/execute/strain-research")
+async def execute_strain_research(request: StrainResearchRequest):
+    """Execute the first-class strain-research command without NLP routing."""
+
+    if agent is None:
+        raise HTTPException(503, "Brain unavailable")
+
+    payload = (
+        request.model_dump()
+        if hasattr(request, "model_dump")
+        else request.dict()
+    )
+    result = await agent.run_command(payload)
 
     return result
 
@@ -141,4 +176,4 @@ async def last_memory():
 
     return {
         "memory": agent.memory.last(20)
-    }   
+    }
