@@ -535,7 +535,6 @@ Search leads:
             tools=[{"type": "web_search", "search_context_size": "low"}],
             tool_choice="required",
             include=["web_search_call.action.sources"],
-            reasoning={"effort": "minimal"},
             text={"verbosity": "low"},
             input=self.prompt(candidate_name, queries),
             max_output_tokens=1800,
