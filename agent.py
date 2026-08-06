@@ -1,17 +1,34 @@
 import asyncio
 import json
+import os
 import time
 from datetime import datetime
 from typing import Any, Mapping
 
 from core.mcp_client import MCPFilesystemClient
 from core.router import GPTRouterV8
-from core.dag_executor import DAGExecutor
+from core.dag_executor import DAGExecutor, ExecutorConfig
 from core.memory import MemoryStore
 from core.semantic_parser import semantic_parser
 from core.semantic_planner import semantic_planner
 from core.semantic_request import SemanticRequest
 from core.knowledge import knowledge_registry
+
+
+STRAIN_RESEARCH_TIMEOUT_ENV = "KUSHWELL_BRAIN_STRAIN_RESEARCH_TIMEOUT"
+DEFAULT_STRAIN_RESEARCH_TIMEOUT = 300.0
+
+
+def _bounded_strain_research_timeout() -> float:
+    raw = os.getenv(
+        STRAIN_RESEARCH_TIMEOUT_ENV,
+        str(DEFAULT_STRAIN_RESEARCH_TIMEOUT),
+    )
+    try:
+        timeout = float(raw)
+    except (TypeError, ValueError):
+        timeout = DEFAULT_STRAIN_RESEARCH_TIMEOUT
+    return min(max(timeout, 120.0), 900.0)
 
 
 class KushwellAgent:
@@ -53,6 +70,19 @@ class KushwellAgent:
         self.router = GPTRouterV8()
         self.memory = MemoryStore()
         self.executor = DAGExecutor(self.mcp, self.memory)
+        self.strain_research_timeout = _bounded_strain_research_timeout()
+        self.strain_research_executor = DAGExecutor(
+            self.mcp,
+            self.memory,
+            config=ExecutorConfig(
+                max_parallel_tasks=1,
+                max_retries=0,
+                retry_backoff=0.0,
+                task_timeout=self.strain_research_timeout,
+                fail_fast=True,
+                debug=self.executor.config.debug,
+            ),
+        )
         self.trace_id = 0
 
     # =========================================================
@@ -265,10 +295,18 @@ class KushwellAgent:
             graph,
         )
 
-        execution_result = await self.executor.execute(
+        executor = (
+            self.strain_research_executor
+            if semantic_request.get("action") == "research_strain"
+            else self.executor
+        )
+        execution_result = await executor.execute(
             graph,
             request=semantic_request,
         )
+
+        if semantic_request.get("action") == "research_strain":
+            self._normalize_strain_research_failure(execution_result)
 
         await self._trace(
             "EXECUTION RESULT",
@@ -290,6 +328,26 @@ class KushwellAgent:
         )
 
         return final_output
+
+    def _normalize_strain_research_failure(self, execution_result: Any) -> None:
+        if not isinstance(execution_result, dict):
+            return
+
+        message = (
+            "Strain research failed without a provider diagnostic. "
+            f"The Brain execution limit is {self.strain_research_timeout:g} seconds."
+        )
+        for collection_name in ("results", "errors"):
+            collection = execution_result.get(collection_name)
+            if not isinstance(collection, dict):
+                continue
+            node = collection.get("strain_research")
+            if not isinstance(node, dict):
+                continue
+            if node.get("status") == "failed" and not str(
+                node.get("error") or ""
+            ).strip():
+                node["error"] = message
 
     # =========================================================
     # OUTPUT REDUCTION LAYER
