@@ -148,6 +148,42 @@ class SemanticPlanner:
             }, request)
 
         # =====================================================
+        # GOVERNED STRAIN RESEARCH
+        # =====================================================
+
+        if action == "research_strain":
+            return self._finalize({
+                "nodes": [
+                    {
+                        "id": "strain_research",
+                        "tool": "research_strain",
+                        "args": {
+                            "candidate_name": constraints.get("candidate_name"),
+                            "normalized_name": constraints.get("normalized_name"),
+                            "review_id": constraints.get("review_id"),
+                            "marketplace_mentions": constraints.get(
+                                "marketplace_mentions",
+                                0,
+                            ),
+                            "research_queries": constraints.get(
+                                "research_queries"
+                            ),
+                            "requested_by": constraints.get(
+                                "requested_by",
+                                "atlas",
+                            ),
+                            "scope": constraints.get(
+                                "scope",
+                                "identity_lineage_flower_chemistry",
+                            ),
+                        },
+                        "deps": [],
+                    }
+                ],
+                "request": request,
+            }, request)
+
+        # =====================================================
         # RECOMMENDATION REQUEST
         # =====================================================
 
